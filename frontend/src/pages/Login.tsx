@@ -1,5 +1,61 @@
-export default function Login() {
+import { useNavigate } from "react-router-dom"
+
+type User = { username: string };
+
+interface LoginProps {
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+export default function Login( { setUser }: LoginProps) {
+  const navigate = useNavigate();
+
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const userData  = {
+      username: e.currentTarget.username.value,
+      password: e.currentTarget.password.value
+    }
+
+    // Try to log in
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(userData)
+      })
+      
+      const resData = await res.json()
+      if (res.ok) {
+        setUser({ username: userData.username })
+        console.log(resData.message)
+        navigate('/projects')
+      } else {
+        alert(resData.message)
+      }
+      
+    } catch (err) {
+      console.error('Fetch failed: ', err)
+    }
+  }
+
   return (
-    <h1>LOGIN PAGE</h1>
+    <>
+    <h1>Login</h1>
+    <form method="POST" onSubmit={handleSubmit}>
+      <div className="label-field">
+      <label htmlFor="username">Username</label>
+      <input type="text" name="username" placeholder="Enter username..."/>
+      </div>
+      <div className="label-field">
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" placeholder="Enter password..."/>
+      </div>
+      <div className="register-form-actions">
+      <button type="submit">Login</button>
+      <a href="/register">Go to register page</a>
+      </div>
+    </form>
+    </>
   )
 }
