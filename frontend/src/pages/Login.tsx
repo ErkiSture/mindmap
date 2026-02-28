@@ -6,38 +6,45 @@ interface LoginProps {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export default function Login( { setUser }: LoginProps) {
+export default function Login({ setUser }: LoginProps) {
   const navigate = useNavigate();
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const userData  = {
+    const userData = {
       username: e.currentTarget.username.value,
       password: e.currentTarget.password.value
-    }
+    };
 
-    // Try to log in
     try {
       const res = await fetch('/api/auth/login', {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)
-      })
-      
-      const resData = await res.json()
-      if (res.ok) {
-        setUser({ username: userData.username })
-        console.log(resData.message)
-        navigate('/projects')
-      } else {
-        alert(resData.message)
+      });
+
+      let data;
+      try {
+        data = await res.json()
+      } catch (err) {
+        data = { message: 'Server returned invalid response'}
       }
-      
+
+      if (res.ok) {
+        setUser({ username: userData.username });
+        console.log(res.status, data.message);
+        navigate('/projects');
+      } else {
+        console.error('Login failed on server: ', res.status, data.message);
+        return;
+      }
+
     } catch (err) {
-      console.error('Fetch failed: ', err)
+      console.error('Network or fetch error during login:', err);
     }
   }
+
 
   return (
     <>

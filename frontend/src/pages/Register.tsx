@@ -1,8 +1,43 @@
 export default function Register() {
+
+  async function submitHandler(e) {
+    e.preventDefault()
+
+    const userData = {
+      username: e.currentTarget.username.value,
+      password: e.currentTarget.password.value,
+      passwordConfirm: e.currentTarget.passwordConfirm.value
+    }
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+
+      let data;
+      try {
+        data = await res.json();
+      } catch (err) {
+        data = { message: 'Server returned invalid response'}
+      }
+
+      if (res.ok) {
+        console.log(res.status, data.message);
+      } else {
+        console.error('Register failed on server: ', res.status, data.message)
+      }
+
+    } catch (err) {
+      console.error('Network or fetch error during login:', err);
+    }
+  }
+
   return (
     <>
     <h1>Register</h1>
-    <form method="POST" action="api/auth/register">
+    <form method="POST" onSubmit={submitHandler}>
       <div className="label-field">
       <label htmlFor="username">Username</label>
       <input type="text" name="username" placeholder="Enter username..."/>
