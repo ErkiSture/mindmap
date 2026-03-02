@@ -98,7 +98,7 @@ function App() {
           <Route path="/projects" element={<ProtectedRoute user={ user }><Projects /></ProtectedRoute>}/>
           {/* <Route path='projects/:projectId' element={<ProtectedRoute user={ user }></ProtectedRoute>}> */}
           <Route path="/projects/:projectId" element={<Project />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register setUser={ setUser }/>} />
           <Route path="/login" element={<Login setUser={ setUser }/>} />
         </Routes>
       </main>

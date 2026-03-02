@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom"
 
 type User = { username: string };
 
-interface LoginProps {
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+type LoginProps = {
+  setUser: (user: User) => void;
 }
 
 export default function Login({ setUser }: LoginProps) {

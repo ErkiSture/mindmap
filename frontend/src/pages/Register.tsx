@@ -1,6 +1,18 @@
-export default function Register() {
+import type React from "react";
+import { useNavigate } from "react-router-dom";
 
-  async function submitHandler(e) {
+type User = {
+  username: string;
+}
+
+type RegisterProp = {
+  setUser: (user: User) => void;
+}
+
+export default function Register({ setUser }: RegisterProp) {
+  const navigate = useNavigate()
+
+  async function submitHandler(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault()
 
     const userData = {
@@ -24,6 +36,8 @@ export default function Register() {
       }
 
       if (res.ok) {
+        setUser({ username: userData.username })
+        navigate('/projects') 
         console.log(res.status, data.message);
       } else {
         console.error('Register failed on server: ', res.status, data.message)
