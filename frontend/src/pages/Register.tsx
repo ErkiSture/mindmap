@@ -1,9 +1,6 @@
 import type React from "react";
 import { useNavigate } from "react-router-dom";
-
-type User = {
-  username: string;
-}
+import type { User } from "../types/user";
 
 type RegisterProp = {
   setUser: (user: User) => void;

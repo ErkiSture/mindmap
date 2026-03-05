@@ -65,7 +65,9 @@ body {
   /* border: 2px dotted yellow; */
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex: 1;
+  /* border: 2px dotted blue; */
 }
 
 .header-wrapper {
@@ -88,11 +90,14 @@ header nav {
 
 main {
   flex: 1;
+  max-width: var(--content-max-width);
+  width: 100%;
   /* border: 2px dotted green; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 2rem 0;
 }
 
 h1 {
