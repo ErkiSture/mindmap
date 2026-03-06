@@ -1,0 +1,6 @@
+.project-card-button {
+  padding: 2.3rem;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-surface);
+  border-radius: 18px;
+}

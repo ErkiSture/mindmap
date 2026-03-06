@@ -1,4 +1,4 @@
-import '../styling/projectCard.css'
+import '../styling/projectCardButton.css'
 
 type ProjectCardProps = {
   name: String;
@@ -7,9 +7,9 @@ type ProjectCardProps = {
 export function ProjectCard({ name }: ProjectCardProps) {
 
   return (
-    <div className='project-card'>
+    <button className='project-card-button'>
       {name}
-    </div>
+    </button>
   )
 
 }

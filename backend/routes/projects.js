@@ -1,8 +1,6 @@
 import express from 'express';
 import { isAuthenticated } from './auth.js';
 import { User, Project } from '../models/index.js';
-import project from '../models/project.js';
-
 
 const router = express.Router();
 
@@ -13,9 +11,16 @@ router.post('/create', async (req, res) => {
     const username = req.session.user.username;
     const user = await User.findOne({ where: { username: username }});
     const project = await user.createProject({ name: name });
-    return res.status(200).json({ message: 'Project created successfully', project: { name: name, id: project.id }});
+    return res.status(200).json({ message: 'Project created successfully', project: project});
   }
 )
+
+//Get specific project of user
+router.get("/get:projectId", isAuthenticated, async (req, res) => {
+  const projectId = req.params.projectId;
+  const project = await Project.findOne({ where: { id: projectId }});
+  return res.status(200).json({ message: "Fetched project successfully", project: project})
+})
 
 
 // Get all projects of user
@@ -28,7 +33,6 @@ router.get('/get', isAuthenticated, async (req, res) => {
   }
 
   let projects = await Project.findAll({ where: { userId: user.id }});
-  projects = projects.map((project) => {return project.name});
   return res.json({ message: 'Fetched all projects successfully', projects: projects });
 })
 

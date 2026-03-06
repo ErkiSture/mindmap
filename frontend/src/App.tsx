@@ -13,6 +13,7 @@ type User = { username: string }
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true)
 
   async function handleLogout() {
     try {
@@ -51,7 +52,7 @@ function App() {
         try {
           data = await res.json();
         } catch {
-          data = { message: 'Server returned invalid response' };
+          data = { message: 'Server returned an invalid response' };
         }
 
         if (!res.ok) {
@@ -65,7 +66,9 @@ function App() {
 
       } catch (err) {
         console.error('Network or fetch error during status check:', err);
-      }
+      } finally {
+      setLoadingUser(false);
+    }
     }
     checkStatus();
   }, []);
@@ -95,9 +98,8 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<ProtectedRoute user={ user }><Projects /></ProtectedRoute>}/>
-          {/* <Route path='projects/:projectId' element={<ProtectedRoute user={ user }></ProtectedRoute>}> */}
-          <Route path="/projects/:projectId" element={<Project />} />
+          <Route path="/projects" element={<ProtectedRoute user={ user } loadingUser={ loadingUser }><Projects /></ProtectedRoute>}/>
+          <Route path='projects/:projectId' element={<ProtectedRoute user={ user } loadingUser={ loadingUser }><Project/></ProtectedRoute>}/>
           <Route path="/register" element={<Register setUser={ setUser }/>} />
           <Route path="/login" element={<Login setUser={ setUser }/>} />
         </Routes>

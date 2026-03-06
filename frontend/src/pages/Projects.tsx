@@ -21,7 +21,7 @@ export default function Projects() {
       try {
         data = await res.json();
       } catch {
-        data = { message: 'Server returned invalid response' };
+        data = { message: 'Server returned an invalid response' };
       }
 
       if (res.ok) {
@@ -52,7 +52,7 @@ export default function Projects() {
     }
 
     if (res.ok) {
-      console.log(res.status, data.message);
+      console.log(res.status, data.message, data.projects);
       setProjects(data.projects)
     } else {
       console.log('Error fetching projects on server: ', res.status, data.message);
@@ -73,6 +73,7 @@ export default function Projects() {
 
   return (
     <>
+      <h1>{ }</h1>
       <h1>Projects page</h1>
         <div className="project-cards-container"> 
           {projects ? projectCards : <div>Loading projects...</div>} 
@@ -81,3 +82,5 @@ export default function Projects() {
     </>
   );
 }
+
+//Fix loading status for display of projects
