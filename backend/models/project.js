@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 
+
 export default (sequelize) => {
   return sequelize.define('Project', {
     name: {

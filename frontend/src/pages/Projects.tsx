@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import '../styling/projects.css'
-import { ProjectCard } from "../components/ProjectCard";
+import { ProjectCardButton } from "../components/ProjectCardButton";
 import type { Project } from '../types/project';
 
 
 export default function Projects() {
 
-  const [projects, setProjects] = useState<Project[]>([])
-
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
+ 
   async function createProject() {
     try {
       const res = await fetch('/api/projects/create', {
@@ -38,8 +40,9 @@ export default function Projects() {
   }
 
   async function getProjects() {
+  setLoadingProjects(true);
   try {
-    const res = await fetch('/api/projects/get', {
+    const res = await fetch('/api/projecats/get', {
       method: 'GET',
       credentials: 'include',
     })
@@ -67,8 +70,8 @@ export default function Projects() {
     getProjects();
   }, [])
 
-  const projectCards = projects.map((project, index) => {
-    return <ProjectCard key={index} name={project.name}></ProjectCard>
+  const projectCards = projects.map((project) => {
+    return <ProjectCardButton key={project.id} name={project.name} id={project.id}></ProjectCardButton>
   })
 
   return (
@@ -76,7 +79,7 @@ export default function Projects() {
       <h1>{ }</h1>
       <h1>Projects page</h1>
         <div className="project-cards-container"> 
-          {projects ? projectCards : <div>Loading projects...</div>} 
+          {projects.length > 0 ? projectCards : <div>Loading projects...</div>} 
         </div>
       <button onClick={() => createProject()}>Create project</button>  
     </>
