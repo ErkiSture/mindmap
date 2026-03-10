@@ -40,9 +40,8 @@ export default function Projects() {
   }
 
   async function getProjects() {
-  setLoadingProjects(true);
   try {
-    const res = await fetch('/api/projecats/get', {
+    const res = await fetch('/api/projects/get', {
       method: 'GET',
       credentials: 'include',
     })
@@ -57,8 +56,12 @@ export default function Projects() {
     if (res.ok) {
       console.log(res.status, data.message, data.projects);
       setProjects(data.projects)
+      setLoadingProjects(false);
+      setError(null);
     } else {
       console.log('Error fetching projects on server: ', res.status, data.message);
+      setError(data.message);
+      setLoadingProjects(false);
     }
 
   } catch (err) {
@@ -76,14 +79,25 @@ export default function Projects() {
 
   return (
     <>
-      <h1>{ }</h1>
-      <h1>Projects page</h1>
-        <div className="project-cards-container"> 
-          {projects.length > 0 ? projectCards : <div>Loading projects...</div>} 
-        </div>
-      <button onClick={() => createProject()}>Create project</button>  
-    </>
-  );
-}
+    {error ?
+      <div>Failed to retrieve projects: {error}</div>
+    : loadingProjects ?
+      <>
+        <div>loading projects...</div>
+      </>
+    : projectCards.length > 0 ?
+      <>
+        <div className="project-cards-container">{projectCards}</div>
+        <button onClick={() => createProject()}>Create project</button>  
+      </>
+    :
+      <>
+        <div>You have no projects</div>
+        <button onClick={() => createProject()}>Create project</button>  
+      </>
 
-//Fix loading status for display of projects
+  }
+  </>
+
+  )
+}
