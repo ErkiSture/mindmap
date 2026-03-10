@@ -9,10 +9,8 @@ type ProjectCardButtonProps = {
 export function ProjectCardButton({ name, id }: ProjectCardButtonProps) {
   const navigate = useNavigate()
 
-
-
   return (
-    <button onClick={() => navigate(`/project/${id}`)}  className='project-card-button'>
+    <button onClick={() => navigate(`/projects/${id}`)}  className='project-card-button'>
       {name}
     </button>
   )

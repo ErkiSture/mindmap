@@ -99,7 +99,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<ProtectedRoute user={ user } loadingUser={ loadingUser }><Projects /></ProtectedRoute>}/>
-          <Route path='projects/:projectId' element={<ProtectedRoute user={ user } loadingUser={ loadingUser }><Project/></ProtectedRoute>}/>
+          <Route path="/projects/:projectId" element={<ProtectedRoute user={ user } loadingUser={ loadingUser }><Project/></ProtectedRoute>}/>
           <Route path="/register" element={<Register setUser={ setUser }/>} />
           <Route path="/login" element={<Login setUser={ setUser }/>} />
         </Routes>

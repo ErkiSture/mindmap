@@ -55,7 +55,7 @@ export default function Projects() {
 
     if (res.ok) {
       console.log(res.status, data.message, data.projects);
-      setProjects(data.projects)
+      setProjects(data.projects || []);
       setLoadingProjects(false);
       setError(null);
     } else {
@@ -95,9 +95,7 @@ export default function Projects() {
         <div>You have no projects</div>
         <button onClick={() => createProject()}>Create project</button>  
       </>
-
-  }
-  </>
-
+    }
+    </>
   )
 }

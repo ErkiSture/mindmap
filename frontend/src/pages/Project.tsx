@@ -1,47 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import type { Project } from "../types/project";
-
+import Canvas from "../components/Canvas";
+import useProject from "../hooks/useProject";
 
 export default function Project() {
   const { projectId } = useParams();
-
-  const [project, setProject] = useState<Project | null>(null);
-  const [loadingProject, setLoadingProject] = useState(true);
-
-  async function getProject() {
-    try {
-      const res = await fetch(`/api/projects/${projectId}`, {
-        method: "GET",
-        credentials: "include",      
-      })
-
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: 'Server returned an invalid response' };
-      }
   
-      if (res.ok) {
-        setProject(data.project)
-      } else {
-        console.error('Error fetching project on server: ', res.status, data.message);
-      }
+  if (!projectId) return <div>Invalid project</div>
 
-    } catch (err) {
-      console.error('Network or fetch error during project creation: ', err);
-    }
+  const { project, loading, error } = useProject(projectId);
 
-
-  }
-
-
-  useEffect(() => {
-    getProject()
-  });
+  if (loading) return <div>Loading project...</div>
+  if (error) return <div>Failed to load project: {error}</div>;
+  if (!project) return <div>Project not found</div>;
 
   return (
-    <h1>Project id: {projectId}</h1>
-  )
+    <>
+      <h1>{project.name}</h1>
+      <Canvas project={project} />
+    </>
+  );
 }
