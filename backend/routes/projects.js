@@ -33,7 +33,7 @@ router.get('/get', isAuthenticated, async (req, res) => {
   }
 
   let projects = await Project.findAll({ where: { userId: user.id }});
-  return res.json({ message: 'Fetched all projects successfully', projects: projects });
+  return res.status(200).json({ message: 'Fetched all projects successfully', projects: projects });
 })
 
 
