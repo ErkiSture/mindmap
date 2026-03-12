@@ -79,9 +79,9 @@ router.post('/logout', async (req, res) => {
 
 router.get('/status', (req, res) => {
   if (req.session.user) {
-    return res.json({ loggedIn: true, user: req.session.user });
+    return res.json({ loggedIn: true, user: req.session.user, message: "Login status checked: logged in" });
   } else {
-    return res.json({ loggedIn: false });
+    return res.json({ loggedIn: false , message: "Login status checked: not logged in"});
   }
 });
 

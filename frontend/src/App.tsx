@@ -7,71 +7,40 @@ import Register from './pages/Register'
 import Project from './pages/Project'
 import { useState, useEffect } from 'react';
 import ProtectedRoute from './components/ProtectedRoute'
+import apiFetch from './utils/apiFetch'
+import type { User } from './types/user'
 
-
-type User = { username: string }
 
 function App() {
+
   const [user, setUser] = useState<User | null>(null);
-  const [loadingUser, setLoadingUser] = useState<boolean>(true)
+  const [loadingUser, setLoadingUser] = useState(true);
 
-  async function handleLogout() {
-    try {
-      const res = await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include'
-      });
-
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: 'Server returned invalid response' };
-      }
-
-      if (!res.ok) {
-        console.error('Logout failed on server:', res.status, data.message);
-        return;
-      }
-
-      setUser(null);
-      console.log(res.status, data.message);
-
-    } catch (err) {
-      console.error('Network or fetch error during logout:', err);
-    }
-  }
-
-  // Load status(if user is logged in or not)
+  // Check login status on mount
   useEffect(() => {
     async function checkStatus() {
-      try {
-        const res = await fetch('/api/auth/status', { credentials: 'include' });
-
-        let data;
-        try {
-          data = await res.json();
-        } catch {
-          data = { message: 'Server returned an invalid response' };
-        }
-
-        if (!res.ok) {
-          console.error('Failed to check status on server:', res.status, data.message);
-          return;
-        }
-
-        if (data.loggedIn) {
-          setUser(data.user);
-        }
-
-      } catch (err) {
-        console.error('Network or fetch error during status check:', err);
-      } finally {
-      setLoadingUser(false);
-    }
+      const { ok, data } = await apiFetch('/api/auth/status', { credentials: 'include' });
+      if (ok) {
+        setUser(data.user)
+        setLoadingUser(false);
+        console.log(data.message);
+      } else {
+        console.error(data.message);
+      }        
     }
     checkStatus();
   }, []);
+
+  // Logout function
+  async function handleLogout() {
+    const { ok, data } = await apiFetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    if (ok) {
+      setUser(null)
+      console.log(data.message);
+    } else {
+      console.error(data.message);
+    }  
+  }
 
   return (
     <>

@@ -2,77 +2,37 @@ import { useEffect, useState } from "react";
 import '../styling/projects.css'
 import { ProjectCardButton } from "../components/ProjectCardButton";
 import type { Project } from '../types/project';
+import useFetch from "../hooks/useFetch";
+import apiFetch from "../utils/apiFetch";
 
 
 export default function Projects() {
 
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loadingProjects, setLoadingProjects] = useState<boolean>(true);
-  const [error, setError] = useState<null | string>(null);
+  const { data, loading, error } = useFetch<{ projects: Project[] }>(
+    "api/projects/get", 
+    { credentials: "include" }
+  )
  
+  const [projects, setProjects] = useState<Project[]>([])
+
+  useEffect(() => {if (data?.projects) setProjects(data.projects)}, [data])
+
   async function createProject() {
-    try {
-      const res = await fetch('/api/projects/create', {
+    const { ok, data } = await apiFetch('/api/projects/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({name: 'Unnamed'})
-      });
+    });
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: 'Server returned an invalid response' };
-      }
-
-      if (res.ok) {
-        console.log(res.status, data.message);
-        setProjects([...projects, data.project]);
-      } else {
-        console.error('Error creating project on server: ', res.status, data.message);
-        return;
-      }
-
-    } catch (err) {
-      console.error('Network or fetch error during project creation: ', err);
-    }
-  }
-
-  async function getProjects() {
-  try {
-    const res = await fetch('/api/projects/get', {
-      method: 'GET',
-      credentials: 'include',
-    })
-    
-    let data;
-    try {
-      data = await res.json();
-    } catch {
-      data = { message: 'Server returned an invalid response'}
-    }
-
-    if (res.ok) {
-      console.log(res.status, data.message, data.projects);
-      setProjects(data.projects || []);
-      setLoadingProjects(false);
-      setError(null);
+    if (ok) {
+      setProjects([...projects, data.project]);
+      console.log(data.message)
     } else {
-      console.log('Error fetching projects on server: ', res.status, data.message);
-      setError(data.message);
-      setLoadingProjects(false);
-    }
-
-  } catch (err) {
-      console.error('Network or fetch error while gettign projects: ', err)
+      console.error(data.message);
     }
   }
-
-  useEffect(() => {
-    getProjects();
-  }, [])
-
+    
   const projectCards = projects.map((project) => {
     return <ProjectCardButton key={project.id} name={project.name} id={project.id}></ProjectCardButton>
   })
@@ -81,7 +41,7 @@ export default function Projects() {
     <>
     {error ?
       <div>Failed to retrieve projects: {error}</div>
-    : loadingProjects ?
+    : loading ?
       <>
         <div>loading projects...</div>
       </>

@@ -1,6 +1,8 @@
 import type React from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "../types/user";
+import apiFetch from "../utils/apiFetch";
+
 
 type RegisterProp = {
   setUser: (user: User) => void;
@@ -18,31 +20,19 @@ export default function Register({ setUser }: RegisterProp) {
       passwordConfirm: e.currentTarget.passwordConfirm.value
     }
 
-    try {
-      const res = await fetch('/api/auth/register', {
+    const { ok, data } = await apiFetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)
       });
 
-      let data;
-      try {
-        data = await res.json();
-      } catch (err) {
-        data = { message: 'Server returned invalid response'}
-      }
-
-      if (res.ok) {
+      if (ok) {
         setUser({ username: userData.username })
         navigate('/projects') 
-        console.log(res.status, data.message);
+        console.log(data.message);
       } else {
-        console.error('Register failed on server: ', res.status, data.message)
+        console.error(data.message);
       }
-
-    } catch (err) {
-      console.error('Network or fetch error during login:', err);
-    }
   }
 
   return (

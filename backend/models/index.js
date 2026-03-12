@@ -17,7 +17,7 @@ const Node = NodeModel(sequelize);
 User.hasMany(Project, {foreignKey: 'userId'});
 Project.belongsTo(User, {foreignKey: 'userId'});
 
-await sequelize.sync({ alter: true })
+await sequelize.sync({ alter: false })
 console.log('Database synced')
 
 export { sequelize, Project, User, Node }

@@ -16,16 +16,16 @@ router.post('/create', async (req, res) => {
 )
 
 //Get specific project of user
-router.get("/:projectId", isAuthenticated, async (req, res) => {
+router.get("/get/:projectId", isAuthenticated, async (req, res) => {
   const projectId = req.params.projectId;
   const project = await Project.findOne({ where: { id: projectId }});
   return res.status(200).json({ message: "Fetched project successfully", project: project})
 })
 
-
 // Get all projects of user
 router.get('/get', isAuthenticated, async (req, res) => {
   const username = req.session.user.username;
+  console.log(username)
   const user = await User.findOne({ where: { username: username }});
 
   if (!user) {
@@ -33,6 +33,7 @@ router.get('/get', isAuthenticated, async (req, res) => {
   }
 
   let projects = await Project.findAll({ where: { userId: user.id }});
+
   return res.status(200).json({ message: 'Fetched all projects successfully', projects: projects });
 })
 
