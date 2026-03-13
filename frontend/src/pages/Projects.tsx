@@ -32,30 +32,18 @@ export default function Projects() {
       console.error(data.message);
     }
   }
+
+  if (loading) return <div>Loading projects...</div>
+  if (error) return <div>Failed to retrieve projects: {error}</div>
     
   const projectCards = projects.map((project) => {
     return <ProjectCardButton key={project.id} name={project.name} id={project.id}></ProjectCardButton>
   })
 
   return (
-    <>
-    {error ?
-      <div>Failed to retrieve projects: {error}</div>
-    : loading ?
-      <>
-        <div>loading projects...</div>
-      </>
-    : projectCards.length > 0 ?
       <>
         <div className="project-cards-container">{projectCards}</div>
         <button onClick={() => createProject()}>Create project</button>  
       </>
-    :
-      <>
-        <div>You have no projects</div>
-        <button onClick={() => createProject()}>Create project</button>  
-      </>
-    }
-    </>
   )
 }

@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import ProtectedRoute from './components/ProtectedRoute'
 import apiFetch from './utils/apiFetch'
 import type { User } from './types/user'
-
+import ThemeButton from './components/themeButton'
 
 function App() {
 
@@ -62,6 +62,7 @@ function App() {
               <button onClick={ handleLogout }>Logout</button>
             )}
           </nav>
+          <ThemeButton></ThemeButton>
         </header>
       </div >
       <main>
