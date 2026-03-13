@@ -5,6 +5,10 @@ type CanvasProps = {
 }
 
 export default function Canvas({ project }: CanvasProps ) {
+
+  
+
+
   return (
     <>
       <div>Perhance a canvas</div>

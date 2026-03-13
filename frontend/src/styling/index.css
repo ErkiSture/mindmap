@@ -17,36 +17,33 @@
   -moz-osx-font-smoothing: grayscale;
 
   --content-max-width: 1280px;
+  --page-side-padding: 1rem;
 }
 
 .light {
-  /* Base */
   --color-bg: #f8f8f8;
   --color-text: #121212;
   --color-surface: #ffffff;
 
-  /* Primary (purple accent) */
   --color-primary: #7741e7;
   --color-primary-hover: #6d28d9;
 
-  /* UI */
   --color-border: #e5e5e5;
   --color-button-text: #ffffff;
+  --color-header-bg: #f8f8f8;
 }
 
 .dark {
-  /* Base */
-  --color-bg: #13131d;          /* dark but not pure black */
-  --color-text: #e5e5e5;        /* soft white, easier on eyes */
-  --color-surface: #1b1a27;     /* slightly lighter than bg for cards */
+  --color-bg: #13131d;
+  --color-text: #e5e5e5;
+  --color-surface: #1b1a27;
 
-  /* Primary (purple accent) */
-  --color-primary: #8c63ff;     /* brighter purple for contrast */
+  --color-primary: #8c63ff;     
   --color-primary-hover: #7a4dfd;
 
-  /* UI */
-  --color-border: #3b3a4a;      /* visible on surface, not too harsh */
-  --color-button-text: #ffffff;  /* keeps buttons readable */
+  --color-border: #3b3a4a;
+  --color-button-text: #ffffff;  
+  --color-header-bg: #13131d;
 }
 
 body {
@@ -67,14 +64,14 @@ body {
   flex-direction: column;
   align-items: center;
   flex: 1;
-  /* border: 2px dotted blue; */
 }
 
 .header-wrapper {
-  background-color: rgb(40, 18, 65);
+  background-color: var(--color-header-bg);
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 0 var(--page-side-padding);
 }
 
 header {
@@ -82,12 +79,21 @@ header {
   padding: 1rem 0;
   display: flex;
   justify-content: space-between;
+  border: 2px dotted red;
+  width: 100%;
 }
 
 header nav {
   display: flex;
   align-items: center;
   gap: 20px;
+  border: 2px dotted blue;
+}
+
+header .right-side {
+  display: flex;
+  align-items: center;
+  border: 2px dotted blue;
 }
 
 main {
@@ -99,7 +105,11 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  padding: 2rem var(--page-side-padding);
+}
+
+footer {
+  padding: 0 var(--page-side-padding);
 }
 
 h1 {
@@ -128,16 +138,13 @@ button {
   transition: border-color 0.25s;
   color: var(--color-button-text);
   background-color: var(--color-primary);
+  outline: none;
 }
 
 button:hover {
   background-color: var(--color-primary-hover);
+  outline: none;
   transition: 0.2s;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 form {

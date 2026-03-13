@@ -1,0 +1,22 @@
+.theme-button{
+  background-color: transparent;
+  outline: none;
+  transition: 0s;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.theme-button:hover, .theme-button:focus, .theme-button:active, .theme-button:focus-visible{
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.theme-button svg {
+  stroke: var(--color-text); /* or var(--color-button-text) */
+  fill: var(--color-text);   /* if you want filled icon */
+  width: 28px;
+  height: 28px;
+  border: 2px dotted green;
+}

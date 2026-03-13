@@ -58,11 +58,13 @@ function App() {
                 <NavLink to={"/login"}>Login</NavLink>
               </>
             )}
+          </nav>
+          <div className='right-side'>
+            <ThemeButton></ThemeButton>
             {user && (
               <button onClick={ handleLogout }>Logout</button>
             )}
-          </nav>
-          <ThemeButton></ThemeButton>
+          </div>
         </header>
       </div >
       <main>
