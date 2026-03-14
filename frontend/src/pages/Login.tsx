@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom"
 import apiFetch from "../utils/apiFetch";
+import type { setUser } from "../types/setUser"
 
-type User = { username: string };
-
-type LoginProps = {
-  setUser: (user: User) => void;
+type Props = {
+  setUser: setUser
 }
 
-export default function Login({ setUser }: LoginProps) {
+export default function Login({ setUser }: Props) {
   const navigate = useNavigate();
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {

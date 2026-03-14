@@ -1,3 +1,5 @@
 export default function FullscreenLayout() {
-  return <Outlet></Outlet>
+  return (
+    <div>YOOOOOOOOOO</div>
+  )
 }

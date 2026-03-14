@@ -2,13 +2,13 @@ import type React from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "../types/user";
 import apiFetch from "../utils/apiFetch";
+import type { setUser } from "../types/setUser"
 
-
-type RegisterProp = {
-  setUser: (user: User) => void;
+type Props = {
+  setUser: setUser
 }
 
-export default function Register({ setUser }: RegisterProp) {
+export default function Register({ setUser }: Props) {
   const navigate = useNavigate()
 
   async function submitHandler(e: React.SyntheticEvent<HTMLFormElement>) {
@@ -39,22 +39,27 @@ export default function Register({ setUser }: RegisterProp) {
     <>
     <h1>Register</h1>
     <form method="POST" onSubmit={submitHandler}>
+
       <div className="label-field">
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" placeholder="Enter username..."/>
+        <label htmlFor="username">Username</label>
+        <input type="text" name="username" placeholder="Enter username..."/>
       </div>
+
       <div className="label-field">
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" placeholder="Enter password..."/>
+        <label htmlFor="password">Password</label>
+        <input type="password" name="password" placeholder="Enter password..."/>
+
       </div>
-      <div className="label-field">
-      <label htmlFor="confirm">Confirm password</label>
-      <input type="password" name="passwordConfirm" placeholder="Confirm password..."/>
+        <div className="label-field">
+        <label htmlFor="confirm">Confirm password</label>
+        <input type="password" name="passwordConfirm" placeholder="Confirm password..."/>
       </div>
+
       <div className="register-form-actions">
-      <button type="submit">Register</button>
-      <a href="/login">Go to login page</a>
+        <button type="submit">Register</button>
+        <a href="/login">Go to login page</a>
       </div>
+
     </form>
     </>
   )
