@@ -1,5 +1,5 @@
 import './styling/App.css'
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom"
+import { BrowserRouter, Routes, Route, NavLink, Outlet } from "react-router-dom"
 import Home from './pages/Home'
 import Projects from './pages/Projects'
 import Login from './pages/Login'
