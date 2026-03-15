@@ -1,23 +1,21 @@
 import './styling/App.css'
-import { BrowserRouter, Routes, Route, NavLink, Outlet } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Projects from './pages/Projects'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Project from './pages/Project'
 import ProtectedRoute from './components/ProtectedRoute'
 import apiFetch from './utils/apiFetch'
 import type { User } from './types/user'
-import ThemeButton from './components/themeButton'
 import useFetch from './hooks/useFetch'
+import { UserContext } from './context/UserContext'
+import MainLayout from './layouts/MainLayout'
+import CanvasLayout from './layouts/CanvasLayout'
 
 function App() {
 
-  const { 
-    data: user, loading: loadingUser, error: userError, setData: setUser, setLoading: setLoadingUser, setError: setUserError 
-  } = useFetch<User>('/api/auth/status', { credentials: 'include' })
+  const { data: user, loading: loadingUser, setData: setUser } = useFetch<User>('/api/auth/status', { credentials: 'include' })
 
-  // Logout function
-  async function handleLogout() {
+  async function logout() {
     const { ok, data } = await apiFetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
     if (ok) {
       setUser(null)
@@ -27,51 +25,8 @@ function App() {
     }  
   }
   
-  function FullscreenLayout() {
-    return (
-      <Project/>
-    )
-  }
-
-  function MainLayout() {
-    return (
-      <>
-        <div className='header-wrapper'>
-          <header>
-            <nav>
-              <NavLink to={"/"}>Home</NavLink>
-              {user && (
-                <NavLink to={"/projects"}>Projects</NavLink>
-              )}
-              {!user && (
-                <>
-                  <NavLink to={"/register"}>Register</NavLink>
-                  <NavLink to={"/login"}>Login</NavLink>
-                </>
-              )}
-            </nav>
-            <div className='right-side'>
-              <ThemeButton></ThemeButton>
-              {user && (
-                <button onClick={ handleLogout }>Logout</button>
-              )}
-            </div>
-          </header>
-        </div >
-
-        <main>
-          <Outlet/>
-        </main>
-
-        <footer>
-
-        </footer>
-      </>
-    )
-  }
-
   return (
-    <>
+    <UserContext.Provider value={{ user, setUser, logout }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}> 
@@ -80,12 +35,12 @@ function App() {
             <Route path="/login" element={<Login setUser={ setUser }/>} />
           </Route>
 
-        <Route path="/projects/:projectId" element={ <FullscreenLayout></FullscreenLayout> }>
+        <Route path="/projects/:projectId" element={ <CanvasLayout></CanvasLayout> }>
 
         </Route>
       </Routes>
     </BrowserRouter>
-  </>
+  </UserContext.Provider>
   )
 }
 

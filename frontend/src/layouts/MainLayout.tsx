@@ -1,8 +1,14 @@
-import { NavLink, Outlet } from "react-router-dom"
 import ThemeButton from "../components/themeButton"
-
+import { NavLink, Outlet } from "react-router-dom"
+import { useContext } from "react"
+import { UserContext } from "../context/UserContext"
 
 export default function MainLayout() {
+
+  const context = useContext(UserContext)
+  if (!context) throw new Error("Missing provider")
+  const { user, logout } = context
+
   return (
     <>
       <div className='header-wrapper'>
@@ -22,7 +28,7 @@ export default function MainLayout() {
           <div className='right-side'>
             <ThemeButton></ThemeButton>
             {user && (
-              <button onClick={ handleLogout }>Logout</button>
+              <button onClick={ logout }>Logout</button>
             )}
           </div>
         </header>

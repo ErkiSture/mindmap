@@ -26,9 +26,6 @@ export default function Canvas({ project }: CanvasProps ) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }, [])
 
-
-
-
   return (
     <>
       <canvas ref={canvasRef} width={500} height={500}></canvas>

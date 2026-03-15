@@ -1,5 +1,7 @@
-export default function FullscreenLayout() {
+import Project from "../pages/Project"
+
+export default function CanvasLayout() {
   return (
-    <div>YOOOOOOOOOO</div>
+    <Project></Project>
   )
 }
