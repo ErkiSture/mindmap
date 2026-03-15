@@ -1,6 +1,5 @@
 import type React from "react";
 import { useNavigate } from "react-router-dom";
-import type { User } from "../types/user";
 import apiFetch from "../utils/apiFetch";
 import type { setUser } from "../types/setUser"
 

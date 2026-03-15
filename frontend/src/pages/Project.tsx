@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import type { Project } from "../types/project";
-import Canvas from "../components/Canvas";
+import Canvas from "../components/canvas/Canvas";
 import useFetch from "../hooks/useFetch";
 
 export default function Project() {
@@ -21,7 +21,7 @@ export default function Project() {
 
   return (
     <>
-      <h1>{project.name}</h1>
+      {/* <h1>{project.name}</h1> */}
       <Canvas project={project} />
     </>
   );
