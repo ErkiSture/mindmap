@@ -24,8 +24,41 @@ export default function Canvas({ project }: CanvasProps ) {
     if (!ctx) return
   }, [])
 
-  function zoom(e: React.WheelEvent<HTMLDivElement>) {
-    e.preventDefault()
+  // function zoom(e: React.WheelEvent<HTMLDivElement>) {
+  //   e.preventDefault()
+
+  //   const rect = e.currentTarget.getBoundingClientRect()
+
+  //   const mouseX = e.clientX - rect.left
+  //   const mouseY = e.clientY - rect.top
+
+  //   setCamera(c => {
+
+  //     const newZoom = Math.max(
+  //       0.2,
+  //       Math.min(3, c.zoom - e.deltaY * 0.001)
+  //     )
+
+  //     const worldX = mouseX / c.zoom + c.x
+  //     const worldY = mouseY / c.zoom + c.y
+
+  //     return {
+  //       zoom: newZoom,
+  //       x: worldX - mouseX / newZoom,
+  //       y: worldY - mouseY / newZoom
+  //     }
+  //   })
+  // }
+
+
+
+
+
+
+
+
+
+  function zoom(e: React.WheelEvent) {
 
     const rect = e.currentTarget.getBoundingClientRect()
 
@@ -33,21 +66,16 @@ export default function Canvas({ project }: CanvasProps ) {
     const mouseY = e.clientY - rect.top
 
     setCamera(c => {
-
-      const newZoom = Math.max(
-        0.2,
-        Math.min(3, c.zoom - e.deltaY * 0.001)
-      )
-
-      const worldX = mouseX / c.zoom + c.x
-      const worldY = mouseY / c.zoom + c.y
+      console.log("yoooo")
 
       return {
-        zoom: newZoom,
-        x: worldX - mouseX / newZoom,
-        y: worldY - mouseY / newZoom
+        zoom: 2,
+        x: 100,
+        y: 100
       }
+
     })
+
   }
 
 
@@ -58,7 +86,8 @@ export default function Canvas({ project }: CanvasProps ) {
         width: "100vw",
         height: "100vh",
         background: "black",
-        position: "relative"
+        position: "relative",
+        overflow: "hidden"
       }}
     >
       <Node x={100} y={100} width={120} height={80} bgColor="red" camera={camera}/>
