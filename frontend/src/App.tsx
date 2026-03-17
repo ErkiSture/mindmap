@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import ProtectedRoute from './components/ProtectedRoute'
 import apiFetch from './utils/apiFetch'
 import type { User } from './types/user'
-import ThemeButton from './components/themeButton'
+import ThemeButton from './components/ThemeButton'
 
 function App() {
 
