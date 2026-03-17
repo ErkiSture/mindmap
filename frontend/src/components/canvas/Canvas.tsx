@@ -24,32 +24,46 @@ export default function Canvas({ project }: CanvasProps ) {
     if (!ctx) return
   }, [])
 
-  function zoom(e: React.WheelEvent) {
+  function zoom(e: React.WheelEvent<HTMLDivElement>) {
     e.preventDefault()
 
-    setCamera(c => ({
-      ...c,
-      zoom: Math.max(0.2, Math.min(3, c.zoom - e.deltaY * 0.001))
-    }))
+    const rect = e.currentTarget.getBoundingClientRect()
+
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+
+    setCamera(c => {
+
+      const newZoom = Math.max(
+        0.2,
+        Math.min(3, c.zoom - e.deltaY * 0.001)
+      )
+
+      const worldX = mouseX / c.zoom + c.x
+      const worldY = mouseY / c.zoom + c.y
+
+      return {
+        zoom: newZoom,
+        x: worldX - mouseX / newZoom,
+        y: worldY - mouseY / newZoom
+      }
+    })
   }
 
 
   return (
-    <>
-      <div 
+    <div
       onWheel={zoom}
       style={{
-        // transform: `scale(${zoom}) translate(${offsetX}px, ${offsetY}px)`,
-        // transformOrigin: "0 0",
         width: "100vw",
         height: "100vh",
         background: "black",
-      }}> 
-        <canvas ref={canvasRef} width={500} height={500} style={{ position: "absolute" }}></canvas>
-        <Node x={100} y={100} width={100} height={100} bgColor={"red"} camera={camera}></Node>
-        <Node x={500} y={200} width={100} height={200} bgColor={"green"} camera={camera}></Node>
-        <Node x={300} y={600} width={200} height={100} bgColor={"blue"} camera={camera}></Node>
-      </div>
-    </>
+        position: "relative"
+      }}
+    >
+      <Node x={100} y={100} width={120} height={80} bgColor="red" camera={camera}/>
+      <Node x={500} y={200} width={120} height={80} bgColor="green" camera={camera}/>
+      <Node x={300} y={500} width={120} height={80} bgColor="blue" camera={camera}/>
+    </div>
   )
 }
