@@ -28,31 +28,48 @@ export default function Node({
 
   useEffect(() => {
     if (!dragging) return
+
+    // dragging just became true
     window.addEventListener("mousemove", handleDrag);
+    window.addEventListener("mouseup", handleStopDrag)
+
+    // Remove listeners before dragging becomes false 
     return () => {
       window.removeEventListener("mousemove", handleDrag)
+      window.removeEventListener("mouseup", handleStopDrag)
     }
-  }, [dragging])
+  }, [dragging, camera])
 
   function handleDrag(e: MouseEvent) {
-    setPos({ x: e.clientX - offset.x, y: e.clientY - offset.y })
+
+    const newX = e.clientX / camera.zoom + camera.x - offset.x
+    const newY = e.clientY / camera.zoom + camera.y - offset.y
+
+    setPos({ x: newX, y: newY })
   }
-  
-  function handleStartDrag(e: React.MouseEvent): void {
-    setOffset({ x: e.clientX - pos.x, y: e.clientY - pos.y })
-    setDragging(true)
-  }
+
+function handleStartDrag(e: React.MouseEvent): void {
+  const mouseX = e.clientX
+  const mouseY = e.clientY
+
+  setOffset({
+    x: mouseX / camera.zoom + camera.x - pos.x,
+    y: mouseY / camera.zoom + camera.y - pos.y
+  })
+
+  setDragging(true)
+}
     
   function handleStopDrag(): void {
     setDragging(false)
   }
   
   return (
-    <div onMouseDown={handleStartDrag} onMouseUp={handleStopDrag}
+    <div onMouseDown={handleStartDrag}
       style={{
         position: "absolute",
-        left: pos.x,
-        top: pos.y,
+        left: (pos.x - camera.x) * camera.zoom,
+        top: (pos.y - camera.y) * camera.zoom,
         width,
         height,
         backgroundColor: bgColor,
