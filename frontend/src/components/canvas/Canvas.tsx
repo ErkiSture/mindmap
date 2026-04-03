@@ -45,13 +45,16 @@ export default function Canvas({ project }: CanvasProps ) {
   }
 
   return (
-    <div
+    <div 
+      className="canvas"
       onWheel={zoom}
       style={{
         width: "100vw",
         height: "100vh",
         background: "black",
-        position: "relative",
+        position: "absolute",
+        top: 0,
+        left: 0,
         overflow: "hidden"
       }}
     >

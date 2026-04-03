@@ -11,16 +11,15 @@ import { UserContext } from './context/UserContext'
 import MainLayout from './layouts/MainLayout'
 import CanvasLayout from './layouts/CanvasLayout'
 
-type AuthResponse = {
+type AuthStatusResponse = {
   loggedIn: boolean
   user: User | null
   message: string
 }
 
-
 function App() {
 
-  const { data: authData, loading: loadingAuthData, setData: setAuthData } = useFetch<AuthResponse>('/api/auth/status', { credentials: 'include' })
+  const { data: authData, loading: loadingAuthData, setData: setAuthData } = useFetch<AuthStatusResponse>('/api/auth/status', { credentials: 'include' })
   const user = authData?.user ?? null 
   function setUser(user: User | null) {
     setAuthData(prev => prev ? { ...prev, user, loggedIn: !!user } : null)

@@ -48,17 +48,17 @@ export default function Node({
     setPos({ x: newX, y: newY })
   }
 
-function handleStartDrag(e: React.MouseEvent): void {
-  const mouseX = e.clientX
-  const mouseY = e.clientY
+  function handleStartDrag(e: React.MouseEvent): void {
+    const mouseX = e.clientX
+    const mouseY = e.clientY
 
-  setOffset({
-    x: mouseX / camera.zoom + camera.x - pos.x,
-    y: mouseY / camera.zoom + camera.y - pos.y
-  })
+    setOffset({
+      x: mouseX / camera.zoom + camera.x - pos.x,
+      y: mouseY / camera.zoom + camera.y - pos.y
+    })
 
-  setDragging(true)
-}
+    setDragging(true)
+  }
     
   function handleStopDrag(): void {
     setDragging(false)
