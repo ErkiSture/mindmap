@@ -8,6 +8,7 @@ export default function MainLayout() {
   const context = useContext(UserContext)
   if (!context) throw new Error("Missing provider")
   const { user, logout } = context
+  //console.log(user)
 
   return (
     <>
@@ -28,7 +29,9 @@ export default function MainLayout() {
           <div className='right-side'>
             <ThemeButton></ThemeButton>
             {user && (
-              <button onClick={ logout }>Logout</button>
+              <>
+                <button onClick={ logout }>Logout</button>
+              </>
             )}
           </div>
         </header>

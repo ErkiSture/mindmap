@@ -11,9 +11,20 @@ import { UserContext } from './context/UserContext'
 import MainLayout from './layouts/MainLayout'
 import CanvasLayout from './layouts/CanvasLayout'
 
+type AuthResponse = {
+  loggedIn: boolean
+  user: User | null
+  message: string
+}
+
+
 function App() {
 
-  const { data: user, loading: loadingUser, setData: setUser } = useFetch<User>('/api/auth/status', { credentials: 'include' })
+  const { data: authData, loading: loadingAuthData, setData: setAuthData } = useFetch<AuthResponse>('/api/auth/status', { credentials: 'include' })
+  const user = authData?.user ?? null 
+  function setUser(user: User | null) {
+    setAuthData(prev => prev ? { ...prev, user, loggedIn: !!user } : null)
+  }
 
   async function logout() {
     const { ok, data } = await apiFetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
@@ -30,7 +41,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}> 
-            <Route path="/projects" element={<ProtectedRoute user={ user } loadingUser={ loadingUser }><Projects /></ProtectedRoute>}/>
+            <Route path="/projects" element={<ProtectedRoute user={ user } loadingUser={ loadingAuthData }><Projects /></ProtectedRoute>}/>
             <Route path="/register" element={<Register setUser={ setUser }/>} />
             <Route path="/login" element={<Login setUser={ setUser }/>} />
           </Route>
