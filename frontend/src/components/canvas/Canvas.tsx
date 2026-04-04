@@ -55,7 +55,7 @@ export default function Canvas({ project }: CanvasProps ) {
         position: "absolute",
         top: 0,
         left: 0,
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <Node x={100} y={100} width={120} height={80} bgColor="red" camera={camera}/>

@@ -1,10 +1,14 @@
 //import '../styling/index.css'
 import '../../styling/ReturnButton.css'
+import { useNavigate } from 'react-router-dom'
 
-export function ReturnButton() {
+
+export default function ReturnButton() {
+  const navigate = useNavigate()
+
   return (
     <div>
-      <button className='return-button canvas-overlay-item'>Return</button>
+      <button className='return-button canvas-overlay-item' onClick={() => {navigate(-1)}}>Return</button>
     </div>
   )
 }
