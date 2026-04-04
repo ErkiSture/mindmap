@@ -1,0 +1,17 @@
+.project-card {
+  padding: 2.3rem;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-surface);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.project-card button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}

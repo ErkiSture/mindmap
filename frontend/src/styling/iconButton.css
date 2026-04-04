@@ -1,0 +1,23 @@
+.icon-button {
+  background-color: transparent;
+  outline: none;
+  transition: 0s;
+  border: none;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.icon-button:hover, .icon-button:focus, .icon-button:active, .icon-button:focus-visible{
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.icon-button svg {
+  stroke: var(--color-text);
+  fill: var(--color-text);
+  width: 24px;
+  height: 24px;
+}

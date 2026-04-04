@@ -3,7 +3,7 @@ import TopHud from "./TopHud"
 
 export default function CanvasOverlay() {
   return (
-    <div className="canvas-overlay-wrapper canvas-overlay-item">
+    <div className="canvas-overlay-item">
         <ReturnButton></ReturnButton>
         <TopHud></TopHud>
     </div>

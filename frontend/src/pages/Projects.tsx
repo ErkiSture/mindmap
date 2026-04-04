@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import '../styling/projects.css'
-import { ProjectCardButton } from "../components/ProjectCardButton";
+import { ProjectCardButton } from "../components/ProjectCard";
 import type { Project } from '../types/project';
 import useFetch from "../hooks/useFetch";
 import apiFetch from "../utils/apiFetch";
