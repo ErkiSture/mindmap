@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import type { Project } from "../../types/project"
-import Node from "./Node";
+import type { Project } from "../types/project"
+import Node from "../components/canvas/Node";
 
 type CanvasProps = {
   project: Project;
