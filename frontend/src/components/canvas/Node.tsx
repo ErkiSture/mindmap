@@ -41,6 +41,7 @@ export default function Node({
   }, [dragging, camera])
 
   function handleDrag(e: MouseEvent) {
+    e.stopPropagation()
 
     const newX = e.clientX / camera.zoom + camera.x - offset.x
     const newY = e.clientY / camera.zoom + camera.y - offset.y
@@ -49,6 +50,8 @@ export default function Node({
   }
 
   function handleStartDrag(e: React.MouseEvent): void {
+    e.stopPropagation()
+
     const mouseX = e.clientX
     const mouseY = e.clientY
 

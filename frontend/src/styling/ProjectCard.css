@@ -1,5 +1,5 @@
 .project-card {
-  padding: 2.3rem;
+  padding: 4rem;
   border: 2px solid var(--color-border);
   background-color: var(--color-surface);
   border-radius: 18px;
@@ -8,7 +8,9 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
+
 
 .project-card button {
   position: absolute;

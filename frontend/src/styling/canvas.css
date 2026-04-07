@@ -1,3 +1,8 @@
+.canvas {
+  touch-action: none;
+  border: 2px dotted red;
+}
+
 .canvas-overlay-item {
     position: fixed;
     z-index: 1000;

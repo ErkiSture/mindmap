@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "../types/project"
 import Node from "../components/canvas/Node";
+import '../styling/canvas.css'
 
 type CanvasProps = {
   project: Project;
@@ -24,17 +25,30 @@ export default function Canvas({ project }: CanvasProps ) {
   //   if (!ctx) return
   // }, [])
 
-  function zoom(e: React.WheelEvent) {
-    const rect = e.currentTarget.getBoundingClientRect()
+  useEffect(() => {
+    const handler = (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+      }
+    };
 
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
+    window.addEventListener("wheel", handler, { passive: false });
+
+    return () => window.removeEventListener("wheel", handler);
+  }, []);
+
+  function zoom(e: React.WheelEvent) {
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
 
     setCamera(c => {
-      const newZoom = Math.max(0.2, Math.min(3, c.zoom - e.deltaY * 0.001))
+      const newZoom = Math.max(0.2, Math.min(3, c.zoom - e.deltaY * 0.004));
 
-      const worldX = mouseX / c.zoom + c.x
-      const worldY = mouseY / c.zoom + c.y
+      const worldX = mouseX / c.zoom + c.x;
+      const worldY = mouseY / c.zoom + c.y;
 
       return {
         zoom: newZoom,
@@ -44,10 +58,15 @@ export default function Canvas({ project }: CanvasProps ) {
     })
   }
 
+  function pan(e: React.MouseEvent) {
+    console.log("pan")
+  }
+
   return (
-    <div 
+    <div
+      ref={canvasRef}
       className="canvas"
-      onWheel={zoom}
+      onMouseDown={pan}
       style={{
         width: "100vw",
         height: "100vh",
@@ -61,6 +80,7 @@ export default function Canvas({ project }: CanvasProps ) {
       <Node x={100} y={100} width={120} height={80} bgColor="red" camera={camera}/>
       <Node x={500} y={200} width={120} height={80} bgColor="green" camera={camera}/>
       <Node x={300} y={500} width={120} height={80} bgColor="blue" camera={camera}/>
+
     </div>
   )
 }

@@ -1,0 +1,7 @@
+svg.icon {
+  stroke: var(--color-text);
+  fill: var(--color-text);
+  width: 24px;
+  height: 24px;
+  border: 2px dotted red;
+}

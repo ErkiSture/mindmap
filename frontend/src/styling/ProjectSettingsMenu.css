@@ -1,0 +1,23 @@
+.project-settings-menu {
+  background: var(--color-surface);
+  position: absolute;
+  top: 22%;
+  right: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 80%;
+  align-items: start;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.project-settings-menu button {
+  all: unset;
+  position: static;
+}
+
+.project-settings-menu button:hover {
+  position: static;
+  cursor: pointer;
+}
