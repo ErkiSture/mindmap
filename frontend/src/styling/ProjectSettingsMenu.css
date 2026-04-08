@@ -6,6 +6,7 @@
   z-index: 10000;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   padding: 1rem;
   width: 80%;
   align-items: start;
@@ -15,6 +16,9 @@
 .project-settings-menu button {
   all: unset;
   position: static;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .project-settings-menu button:hover {
