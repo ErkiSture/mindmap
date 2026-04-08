@@ -19,7 +19,7 @@ export default function Canvas({ project }: CanvasProps) {
 
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
-  // prevent browser zoom (important for pinch)
+  // Prevent browser zoom (important for pinch)
   useEffect(() => {
     const handler = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) {
@@ -31,7 +31,8 @@ export default function Canvas({ project }: CanvasProps) {
     return () => window.removeEventListener("wheel", handler);
   }, []);
 
-  // --- ZOOM ---
+  
+  // ZOOM 
   function handleZoom(e: React.WheelEvent) {
     const rect = e.currentTarget.getBoundingClientRect();
 
@@ -52,7 +53,8 @@ export default function Canvas({ project }: CanvasProps) {
     });
   }
 
-  // --- PAN (mouse drag) ---
+
+  //PAN MOUSE
   function onMouseDown(e: React.MouseEvent) {
     dragging.current = true;
     last.current = { x: e.clientX, y: e.clientY };
@@ -77,15 +79,16 @@ export default function Canvas({ project }: CanvasProps) {
     dragging.current = false;
   }
 
-  // --- WHEEL HANDLER ---
+
+  // WHEEL HANDLER
   function onWheel(e: React.WheelEvent) {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (e.ctrlKey || e.metaKey) {
-      // zoom (mouse wheel OR trackpad pinch)
+      // Zoom on mouse wheel or trackpad pinch
       handleZoom(e);
     } else {
-      // pan (trackpad two-finger scroll)
+      // PAN TRACKPAD
       setCamera((c) => ({
         ...c,
         x: c.x + e.deltaX / c.zoom,
