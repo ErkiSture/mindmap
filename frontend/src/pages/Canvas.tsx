@@ -1,7 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import type { Project } from "../types/project";
 import Node from "../components/canvas/Node";
 import "../styling/canvas.css";
+
+const MIN_ZOOM = 0.10;
+const MAX_ZOOM = 3;
+
+const ZOOM_SENSITIVITY = 0.0007;
+const PAN_SENSITIVITY = 1;
+
+const CANVAS_WIDTH = 10000;
+const CANVAS_HEIGHT = 8000;
+
+const EDGE_THRESHOLD = 0;
 
 type CanvasProps = {
   project: Project;
@@ -9,8 +20,8 @@ type CanvasProps = {
 
 export default function Canvas({ project }: CanvasProps) {
   const [camera, setCamera] = useState({
-    x: 0,
-    y: 0,
+    x: 1000,
+    y: 1000,
     zoom: 1,
   });
 
@@ -32,6 +43,8 @@ export default function Canvas({ project }: CanvasProps) {
   }, []);
 
   
+  const [border, setBorder] = useState({ top: 0, left: 0, right: 0, bottom: 0 });
+
   // ZOOM 
   function handleZoom(e: React.WheelEvent) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -40,19 +53,22 @@ export default function Canvas({ project }: CanvasProps) {
     const mouseY = e.clientY - rect.top;
 
     setCamera((c) => {
-      const newZoom = Math.max(0.2, Math.min(3, c.zoom - e.deltaY * 0.001));
+      const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, c.zoom - e.deltaY * ZOOM_SENSITIVITY));
 
       const worldX = mouseX / c.zoom + c.x;
       const worldY = mouseY / c.zoom + c.y;
 
+      let newCameraX = worldX - mouseX / newZoom;
+      let newCameraY = worldY - mouseY / newZoom;
+
       return {
         zoom: newZoom,
-        x: worldX - mouseX / newZoom,
-        y: worldY - mouseY / newZoom,
+        x: newCameraX,
+        y: newCameraY,
       };
     });
   }
-
+  
 
   //PAN MOUSE
   function onMouseDown(e: React.MouseEvent) {
@@ -68,8 +84,8 @@ export default function Canvas({ project }: CanvasProps) {
 
     setCamera((c) => ({
       ...c,
-      x: c.x - dx / c.zoom,
-      y: c.y - dy / c.zoom,
+      x: c.x - dx / c.zoom * PAN_SENSITIVITY,
+      y: c.y - dy / c.zoom * PAN_SENSITIVITY,
     }));
 
     last.current = { x: e.clientX, y: e.clientY };
@@ -96,30 +112,88 @@ export default function Canvas({ project }: CanvasProps) {
       }));
     }
   }
+  
+  useEffect(() => {
+    let left = camera.x < EDGE_THRESHOLD ? (EDGE_THRESHOLD - camera.x) * camera.zoom : 0;
+    let right = camera.x > CANVAS_WIDTH - EDGE_THRESHOLD - (window.innerWidth / camera.zoom) ? ((camera.x + window.innerWidth / camera.zoom) - (CANVAS_WIDTH - EDGE_THRESHOLD)) * camera.zoom : 0;
+    let top = camera.y < EDGE_THRESHOLD ? (EDGE_THRESHOLD - camera.y) * camera.zoom : 0;
+    let bottom = camera.y > CANVAS_HEIGHT - EDGE_THRESHOLD - (window.innerHeight / camera.zoom) ? ((camera.y + window.innerHeight / camera.zoom) - (CANVAS_HEIGHT - EDGE_THRESHOLD)) * camera.zoom : 0;
+
+    setBorder({ top, left, right, bottom });
+
+  }, [camera]);
+
 
   return (
-    <div
-      ref={canvasRef}
-      className="canvas"
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseUp}
-      onWheel={onWheel}
-      style={{
-        width: "100vw",
-        height: "100vh",
-        background: "black",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        overflow: "hidden",
-        cursor: dragging.current ? "grabbing" : "grab",
-      }}
-    >
-      <Node x={100} y={100} width={120} height={80} bgColor="red" camera={camera} />
-      <Node x={500} y={200} width={120} height={80} bgColor="green" camera={camera} />
-      <Node x={300} y={500} width={120} height={80} bgColor="blue" camera={camera} />
-    </div>
+    <>
+    <div style={{
+      position: "absolute",
+      left: 0,
+      top: 0,
+      width: border.left,
+      height: "100%",
+      background: "gray",
+      zIndex: 2,
+    }} />
+
+    <div style={{
+      position: "absolute",
+      right: 0,
+      top: 0,
+      width: border.right,
+      height: "100%",
+      background: "gray",
+      zIndex: 2,
+    }} />
+
+    <div style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      height: border.top,
+      width: "100%",
+      background: "gray",
+      zIndex: 2,
+    }} />
+
+    <div style={{
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      height: border.bottom,
+      width: "100%",
+      background: "gray",
+      zIndex: 2,
+    }} />
+
+      <div
+        ref={canvasRef}
+        className="canvas"
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onWheel={onWheel}
+        style={{
+          width: "100vw",
+          height: "100vh",
+          background: "black",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          overflow: "hidden",
+          cursor: dragging.current ? "grabbing" : "grab",
+        }}
+      >
+        <Node x={5000} y={5000} width={120} height={80} bgColor="red" camera={camera} />
+        <Node x={2000} y={4000} width={120} height={80} bgColor="green" camera={camera} />
+        <Node x={4000} y={1500} width={120} height={80} bgColor="blue" camera={camera} />
+      </div>
+
+
+      <div style={{ position: "absolute", bottom: 10, left: 10, zIndex: 1000 }}>
+          <p style={{ color: "red" }}>Camera: {JSON.stringify(camera)}</p>
+      </div>
+    </>
   );
 }
