@@ -20,7 +20,7 @@ export default function ProjectSettingsMenu() {
       </button>
     </div>
     { showRenameMenu && (
-      <ProjectCardRenameMenu></ProjectCardRenameMenu>
+      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu}></ProjectCardRenameMenu>
     )}
     </>
   )

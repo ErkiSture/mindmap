@@ -66,7 +66,7 @@ export default function Node({
   function handleStopDrag(): void {
     setDragging(false)
   }
-  
+
   return (
     <div onMouseDown={handleStartDrag}
       style={{

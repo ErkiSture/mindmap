@@ -2,6 +2,10 @@ import { use, useEffect, useRef, useState } from "react";
 import type { Project } from "../types/project";
 import Node from "../components/canvas/Node";
 import "../styling/canvas.css";
+import "../styling/CanvasPopUpMenu.css"
+import type { node } from "../types/node"
+import useFetch from "../hooks/useFetch";
+import CanvasPopUpMenu from "../components/canvas/CanvasPopUpMenu";
 
 const MIN_ZOOM = 0.10;
 const MAX_ZOOM = 3;
@@ -19,6 +23,14 @@ type CanvasProps = {
 };
 
 export default function Canvas({ project }: CanvasProps) {
+
+  const { data, loading, error } = useFetch(
+    `/api/projects/get/${project.id}`,
+    { credentials: "include" }
+  );
+
+  const [popUpMenuVisible, setPopUpMenuVisible] = useState<boolean>(false)
+
   const [camera, setCamera] = useState({
     x: 1000,
     y: 1000,
@@ -27,7 +39,6 @@ export default function Canvas({ project }: CanvasProps) {
 
   const dragging = useRef(false);
   const last = useRef({ x: 0, y: 0 });
-
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
   // Prevent browser zoom (important for pinch)
@@ -38,8 +49,16 @@ export default function Canvas({ project }: CanvasProps) {
       }
     };
 
+    const contextMenuHandler = (e: MouseEvent) => {
+      e.preventDefault();
+    }
+
+    window.addEventListener("contextmenu", contextMenuHandler);
     window.addEventListener("wheel", handler, { passive: false });
-    return () => window.removeEventListener("wheel", handler);
+    return () => {
+      window.removeEventListener("wheel", handler);
+      window.removeEventListener("contextmenu", contextMenuHandler);
+    }
   }, []);
 
   
@@ -69,9 +88,13 @@ export default function Canvas({ project }: CanvasProps) {
     });
   }
   
-
-  //PAN MOUSE
+  //PAN MOUSE AND OPEN MENU
   function onMouseDown(e: React.MouseEvent) {
+    if (e.button === 2) {  // Right click
+      setPopUpMenuVisible(!popUpMenuVisible);
+      return;
+    }
+
     dragging.current = true;
     last.current = { x: e.clientX, y: e.clientY };
   }
@@ -122,6 +145,10 @@ export default function Canvas({ project }: CanvasProps) {
     setBorder({ top, left, right, bottom });
 
   }, [camera]);
+
+  function triggerPopUpMenu() {
+    setPopUpMenuVisible(!popUpMenuVisible);
+  }
 
 
   return (
@@ -188,6 +215,10 @@ export default function Canvas({ project }: CanvasProps) {
         <Node x={5000} y={5000} width={120} height={80} bgColor="red" camera={camera} />
         <Node x={2000} y={4000} width={120} height={80} bgColor="green" camera={camera} />
         <Node x={4000} y={1500} width={120} height={80} bgColor="blue" camera={camera} />
+        
+        { popUpMenuVisible && (
+          <CanvasPopUpMenu/>
+        )}
       </div>
 
 
