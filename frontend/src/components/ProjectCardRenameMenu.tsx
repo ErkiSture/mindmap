@@ -3,9 +3,11 @@ import '../styling/ProjectCardRenameMenu.css'
 
 type Props = {
   setShowRenameMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  id: number
+  toggleSettings: Function;
 }
 
-export default function ProjectCardRenameMenu({ setShowRenameMenu }: Props) {
+export default function ProjectCardRenameMenu({ setShowRenameMenu, id, toggleSettings }: Props) {
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -13,6 +15,7 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu }: Props) {
   
   function cancel() {
     setShowRenameMenu(false)
+    toggleSettings(id)
   }
 
   return (

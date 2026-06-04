@@ -4,23 +4,24 @@ import ProjectSettingsButton from './ProjectSettingsButton';
 import { useState } from 'react';
 import ProjectSettingsMenu from './ProjectSettingsMenu';
 
-type ProjectCardButtonProps = {
+type ProjectCardProps = {
   name: String;
   id: number;
+  showSettingsCardId: number | null;
+  showSettings: boolean;
+  toggleSettings: Function;
 }
 
-export function ProjectCardButton({ name, id }: ProjectCardButtonProps) {
+export function ProjectCard({ name, id, showSettingsCardId, showSettings, toggleSettings }: ProjectCardProps) {
   const navigate = useNavigate()
-
-  const [ showSettings, setShowSettings ] = useState<boolean>(false);
 
   return (
     <>
       <div className="project-card" onClick={() => navigate(`/projects/${id}`)}>
-        <ProjectSettingsButton showSettings={showSettings} setShowSettings={setShowSettings} />
+        <ProjectSettingsButton name={name} id={id} toggleSettings={toggleSettings}/>
           {name}
-        { showSettings && (
-          <ProjectSettingsMenu />
+        {showSettings && (id === showSettingsCardId) && (
+          <ProjectSettingsMenu id={id} toggleSettings={toggleSettings}/>
         )}
       </div>
     </>

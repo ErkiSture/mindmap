@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import '../styling/projects.css'
-import { ProjectCardButton } from "../components/ProjectCard";
+import { ProjectCard } from "../components/ProjectCard";
 import type { Project } from '../types/project';
 import useFetch from "../hooks/useFetch";
 import apiFetch from "../utils/apiFetch";
@@ -15,6 +15,19 @@ export default function Projects() {
  
   const [projects, setProjects] = useState<Project[]>([])
 
+  const [ showSettingsCardId, setShowSettingsCardId ] = useState<number | null>(null);
+  const [ showSettings, setShowSettings ] = useState<boolean>(false);
+
+  function toggleSettings(projectId: number) {
+    if (showSettingsCardId === projectId) {
+      setShowSettingsCardId(null);
+      setShowSettings(false);
+    } else {
+      setShowSettingsCardId(projectId);
+      setShowSettings(true);
+    }
+  }
+  
   useEffect(() => {if (data?.projects) setProjects(data.projects)}, [data])
 
   async function createProject() {
@@ -37,7 +50,14 @@ export default function Projects() {
   if (error) return <div>Failed to retrieve projects: {error}</div>
     
   const projectCards = projects.map((project) => {
-    return <ProjectCardButton key={project.id} name={project.name} id={project.id}></ProjectCardButton>
+    return <ProjectCard 
+      key={project.id} 
+      name={project.name} 
+      id={project.id} 
+      showSettingsCardId = {showSettingsCardId}
+      showSettings = {showSettings}
+      toggleSettings={toggleSettings}>
+    </ProjectCard>
   })
 
   return (

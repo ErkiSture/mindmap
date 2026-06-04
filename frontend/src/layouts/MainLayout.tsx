@@ -8,7 +8,6 @@ export default function MainLayout() {
   const context = useContext(UserContext)
   if (!context) throw new Error("Missing provider")
   const { user, logout } = context
-  //console.log(user)
 
   return (
     <>

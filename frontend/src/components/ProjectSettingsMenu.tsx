@@ -4,7 +4,12 @@ import Delete from '../assets/Delete';
 import { useState } from 'react';
 import ProjectCardRenameMenu from './ProjectCardRenameMenu';
 
-export default function ProjectSettingsMenu() {
+type ProjectSettingsMenuProps = {
+  id: number
+  toggleSettings: Function
+}
+
+export default function ProjectSettingsMenu({ id, toggleSettings }: ProjectSettingsMenuProps) {
   const [showRenameMenu, setShowRenameMenu] = useState<boolean>(false);
 
   return (
@@ -20,7 +25,7 @@ export default function ProjectSettingsMenu() {
       </button>
     </div>
     { showRenameMenu && (
-      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu}></ProjectCardRenameMenu>
+      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu} id={id} toggleSettings={toggleSettings}></ProjectCardRenameMenu>
     )}
     </>
   )

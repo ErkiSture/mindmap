@@ -3,15 +3,16 @@ import ThreeDots from '../assets/ThreeDots';
 import ProjectSettingsMenu from './ProjectSettingsMenu';
 
 type ProjectSettingsButtonProps = {
-  showSettings: boolean;
-  setShowSettings: Function;
+  name: String
+  id: number
+  toggleSettings: Function;
 }
 
-export default function ProjectSettingsButton( { showSettings, setShowSettings }: ProjectSettingsButtonProps) {
+export default function ProjectSettingsButton( { name, id, toggleSettings }: ProjectSettingsButtonProps) {
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
       e.stopPropagation();
-      setShowSettings(!showSettings)
+      toggleSettings(id)
     }
 
     return (
