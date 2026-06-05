@@ -14,6 +14,7 @@ export default function Projects() {
   )
  
   const [projects, setProjects] = useState<Project[]>([])
+  useEffect(() => {if (data?.projects) setProjects(data.projects)}, [data])
 
   const [ showSettingsCardId, setShowSettingsCardId ] = useState<number | null>(null);
   const [ showSettings, setShowSettings ] = useState<boolean>(false);
@@ -27,9 +28,9 @@ export default function Projects() {
       setShowSettings(true);
     }
   }
-  
-  useEffect(() => {if (data?.projects) setProjects(data.projects)}, [data])
 
+  function setProjectName(projectId: number, newName: String) {}
+  
   async function createProject() {
     const { ok, data } = await apiFetch('/api/projects/create', {
         method: 'POST',

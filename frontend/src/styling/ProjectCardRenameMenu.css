@@ -16,11 +16,15 @@
   /* background-color: black; */
   /* width: 30vw; */
   /* height: 30vh; */
-  border: 2px dotted red;
 }
 
 .project-card-rename-menu form {
   margin: 0;
+  gap: 1.5rem;
+}
+
+.project-card-rename-menu form label {
+  font-size: 1.4rem;
 }
 
 .project-card-rename-menu form .button-row{
