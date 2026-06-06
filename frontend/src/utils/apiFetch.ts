@@ -2,6 +2,10 @@ export default async function apiFetch(url: string, options?: RequestInit) {
   try {
     const res = await fetch(url, options);
 
+    await new Promise(resolve =>
+      setTimeout(resolve, Math.random() * 3000)
+    );      
+
     let data;
     try {
       data = await res.json();

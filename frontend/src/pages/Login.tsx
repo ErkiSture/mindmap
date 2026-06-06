@@ -37,16 +37,16 @@ export default function Login({ setUser }: Props) {
     <h1>Login</h1>
     <form method="POST" onSubmit={handleSubmit}>
       <div className="label-field">
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" placeholder="Enter username..."/>
+        <label htmlFor="username">Username</label>
+        <input type="text" name="username" placeholder="Enter username..."/>
       </div>
       <div className="label-field">
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" placeholder="Enter password..."/>
+        <label htmlFor="password">Password</label>
+        <input type="password" name="password" placeholder="Enter password..."/>
       </div>
       <div className="register-form-actions">
-      <button type="submit">Login</button>
-      <a href="/register">Go to register page</a>
+        <button type="submit">Login</button>
+        <a href="/register">Go to register page</a>
       </div>
     </form>
     </>

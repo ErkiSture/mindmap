@@ -16,6 +16,8 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu, id, toggleSet
 
   // renameProject is passed from Projects.tsx and updates project name frontend and backend
   async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    if (loading) return;
+
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const value = (form.elements.namedItem("project-name") as HTMLInputElement).value;

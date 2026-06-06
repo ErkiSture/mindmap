@@ -19,7 +19,6 @@ export default function useFetch<T>(url: string,  options?: RequestInit):
   useEffect(() => {
     async function getData() {
       const res = await apiFetch(url, options);
-
       if (res.ok) {
         setData(res.data);
         setLoading(false);

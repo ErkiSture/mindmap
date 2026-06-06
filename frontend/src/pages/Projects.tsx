@@ -29,11 +29,13 @@ export default function Projects() {
     }
   }
 
+
+  // RENAME PROJECT
   async function renameProject(projectId: number, newName: String): Promise<{ success: boolean, error: string | null }> {
     // Can't use useFetch since hooks can only be used top level
 
     // Rename project backend 
-    const res = await fetch("api/projects/rename", {
+    const { ok, data } = await apiFetch("api/projects/rename", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -45,19 +47,28 @@ export default function Projects() {
 
     // Handle response
     let error;
-    if (res.ok) {
-      const updatedProject = await res.json();
+    if (ok) {
       // Update project in state
-      setProjects(projects.map(project => project.id === projectId ? updatedProject : project));
+      setProjects(projects.map(project => project.id === projectId ? data : project));
     } else {
-      error = await res.json();
+      error = await data.json();
       error = (error.message || "Failed to rename project");
     }
 
-    return { success: res.ok, error: error || null};
+    console.log("test", {ok, data, error})
+    return { success: ok, error: error || null};
   }
   
+
+  // CREATE PROJECT
+  const [createProjectLoading, setCreateProjectLoading] = useState<boolean>(false);
+  const [createProjectError, setCreateProjectError] = useState<string | null>(null);
+
   async function createProject() {
+    if (createProjectLoading) return;
+    setCreateProjectLoading(true);
+    setCreateProjectError(null);
+
     const { ok, data } = await apiFetch('/api/projects/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -69,8 +80,10 @@ export default function Projects() {
       setProjects([...projects, data.project]);
       console.log(data.message)
     } else {
+      setCreateProjectError(data.message || "Failed to create project");
       console.error(data.message);
     }
+    setCreateProjectLoading(false);
   }
 
   if (loading) return <div>Loading projects...</div>
@@ -91,7 +104,15 @@ export default function Projects() {
   return (
       <>
         <div className="project-cards-container">{projectCards}</div>
-        <button onClick={() => createProject()}>Create project</button>  
+        <button onClick={() => createProject()}>Create project</button> 
+
+        { createProjectError && (
+          <div>Failed to create a project</div>
+        )} 
+
+        { createProjectLoading && (
+          <div>Creating project...</div>
+        )} 
       </>
   )
 }
