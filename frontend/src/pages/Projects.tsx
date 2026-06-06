@@ -29,7 +29,33 @@ export default function Projects() {
     }
   }
 
-  function setProjectName(projectId: number, newName: String) {}
+  async function renameProject(projectId: number, newName: String): Promise<{ success: boolean, error: string | null }> {
+    // Can't use useFetch since hooks can only be used top level
+
+    // Rename project backend 
+    const res = await fetch("api/projects/rename", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        projectId: projectId,
+        newName: newName
+      }),
+      credentials: "include"
+    });
+
+    // Handle response
+    let error;
+    if (res.ok) {
+      const updatedProject = await res.json();
+      // Update project in state
+      setProjects(projects.map(project => project.id === projectId ? updatedProject : project));
+    } else {
+      error = await res.json();
+      error = (error.message || "Failed to rename project");
+    }
+
+    return { success: res.ok, error: error || null};
+  }
   
   async function createProject() {
     const { ok, data } = await apiFetch('/api/projects/create', {
@@ -57,7 +83,8 @@ export default function Projects() {
       id={project.id} 
       showSettingsCardId = {showSettingsCardId}
       showSettings = {showSettings}
-      toggleSettings={toggleSettings}>
+      toggleSettings={toggleSettings}
+      renameProject={renameProject}>
     </ProjectCard>
   })
 

@@ -10,9 +10,10 @@ type ProjectCardProps = {
   showSettingsCardId: number | null;
   showSettings: boolean;
   toggleSettings: Function;
+  renameProject: Function;
 }
 
-export function ProjectCard({ name, id, showSettingsCardId, showSettings, toggleSettings }: ProjectCardProps) {
+export function ProjectCard({ name, id, showSettingsCardId, showSettings, toggleSettings, renameProject }: ProjectCardProps) {
   const navigate = useNavigate()
 
   return (
@@ -21,7 +22,7 @@ export function ProjectCard({ name, id, showSettingsCardId, showSettings, toggle
         <ProjectSettingsButton name={name} id={id} toggleSettings={toggleSettings}/>
           {name}
         {showSettings && (id === showSettingsCardId) && (
-          <ProjectSettingsMenu id={id} toggleSettings={toggleSettings}/>
+          <ProjectSettingsMenu id={id} toggleSettings={toggleSettings} renameProject={renameProject}/>
         )}
       </div>
     </>

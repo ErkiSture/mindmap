@@ -7,9 +7,10 @@ import ProjectCardRenameMenu from './ProjectCardRenameMenu';
 type ProjectSettingsMenuProps = {
   id: number
   toggleSettings: Function
+  renameProject: Function;
 }
 
-export default function ProjectSettingsMenu({ id, toggleSettings }: ProjectSettingsMenuProps) {
+export default function ProjectSettingsMenu({ id, toggleSettings, renameProject }: ProjectSettingsMenuProps) {
   const [showRenameMenu, setShowRenameMenu] = useState<boolean>(false);
 
   return (
@@ -25,7 +26,7 @@ export default function ProjectSettingsMenu({ id, toggleSettings }: ProjectSetti
       </button>
     </div>
     { showRenameMenu && (
-      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu} id={id} toggleSettings={toggleSettings}></ProjectCardRenameMenu>
+      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu} id={id} toggleSettings={toggleSettings} renameProject={renameProject}></ProjectCardRenameMenu>
     )}
     </>
   )
