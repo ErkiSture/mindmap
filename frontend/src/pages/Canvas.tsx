@@ -1,9 +1,8 @@
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Project } from "../types/project";
 import Node from "../components/canvas/Node";
 import "../styling/canvas.css";
 import "../styling/CanvasPopUpMenu.css"
-import type { node } from "../types/node"
 import useFetch from "../hooks/useFetch";
 import CanvasPopUpMenu from "../components/canvas/CanvasPopUpMenu";
 

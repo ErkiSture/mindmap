@@ -1,16 +1,16 @@
 import '../styling/ProjectSettingsMenu.css'
 import Edit from '../assets/Edit';
 import Delete from '../assets/Delete'; 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ProjectCardRenameMenu from './ProjectCardRenameMenu';
+import { ProjectsContext } from '../context/projectsContext';
 
 type ProjectSettingsMenuProps = {
   id: number
-  toggleSettings: Function
-  renameProject: Function;
 }
 
-export default function ProjectSettingsMenu({ id, toggleSettings, renameProject }: ProjectSettingsMenuProps) {
+export default function ProjectSettingsMenu({ id }: ProjectSettingsMenuProps) {
+  const context = useContext(ProjectsContext);
   const [showRenameMenu, setShowRenameMenu] = useState<boolean>(false);
 
   return (
@@ -26,7 +26,7 @@ export default function ProjectSettingsMenu({ id, toggleSettings, renameProject 
       </button>
     </div>
     { showRenameMenu && (
-      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu} id={id} toggleSettings={toggleSettings} renameProject={renameProject}></ProjectCardRenameMenu>
+      <ProjectCardRenameMenu setShowRenameMenu={setShowRenameMenu} id={id}></ProjectCardRenameMenu>
     )}
     </>
   )

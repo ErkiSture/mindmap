@@ -10,6 +10,7 @@ import useFetch from './hooks/useFetch'
 import { UserContext } from './context/UserContext'
 import MainLayout from './layouts/MainLayout'
 import CanvasLayout from './layouts/CanvasLayout'
+import ProjectsProvider from './context/ProjectsProvider'
 
 type AuthStatusResponse = {
   loggedIn: boolean
@@ -36,21 +37,21 @@ function App() {
   }
   
   return (
-    <UserContext.Provider value={{ user, setUser, logout }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}> 
-            <Route path="/projects" element={<ProtectedRoute user={ user } loadingUser={ loadingAuthData }><Projects /></ProtectedRoute>}/>
-            <Route path="/register" element={<Register setUser={ setUser }/>} />
-            <Route path="/login" element={<Login setUser={ setUser }/>} />
-          </Route>
+    <ProjectsProvider>
+      <UserContext.Provider value={{ user, setUser, logout }}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainLayout />}> 
+              <Route path="/projects" element={<ProtectedRoute user={ user } loadingUser={ loadingAuthData }><Projects /></ProtectedRoute>}/>
+              <Route path="/register" element={<Register setUser={ setUser }/>} />
+              <Route path="/login" element={<Login setUser={ setUser }/>} />
+            </Route>
 
-        <Route path="/projects/:projectId" element={ <CanvasLayout></CanvasLayout> }>
-
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </UserContext.Provider>
+            <Route path="/projects/:projectId" element={ <CanvasLayout></CanvasLayout> }></Route>
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
+    </ProjectsProvider>
   )
 }
 

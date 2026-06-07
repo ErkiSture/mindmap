@@ -1,15 +1,15 @@
 import type React from 'react';
 import '../styling/ProjectCardRenameMenu.css'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ProjectsContext } from '../context/projectsContext';
 
 type Props = {
   setShowRenameMenu: React.Dispatch<React.SetStateAction<boolean>>;
   id: number;
-  toggleSettings: Function;
-  renameProject: Function;
 }
 
-export default function ProjectCardRenameMenu({ setShowRenameMenu, id, toggleSettings, renameProject }: Props) {
+export default function ProjectCardRenameMenu({ setShowRenameMenu, id }: Props) {
+  const context = useContext(ProjectsContext);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingError, setLoadingError] = useState<String | null>();
@@ -24,17 +24,17 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu, id, toggleSet
 
     setLoading(true);
     setLoadingError(null);
-    const { success, error } = await renameProject(id, value);
+    const { success, error } = await context!.renameProject(id, value);
     setLoading(false);
     setLoadingError(error);
     
     if (!success) return;
-    toggleSettings(id);
+    context!.toggleSettings(id);
   }
   
   function cancel() {
     setShowRenameMenu(false);
-    toggleSettings(id);
+    context!.toggleSettings(id);
   }
 
   return (
