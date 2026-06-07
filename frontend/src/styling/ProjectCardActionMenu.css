@@ -1,4 +1,4 @@
-.project-card-rename-menu-overlay {
+.project-card-action-menu-overlay {
   top: 0;
   left: 0;
   position: fixed;
@@ -8,7 +8,7 @@
   z-index: 99999;
 }
 
-.project-card-rename-menu {
+.project-card-action-menu {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -18,16 +18,16 @@
   /* height: 30vh; */
 }
 
-.project-card-rename-menu form {
+.project-card-action-menu form {
   margin: 0;
   gap: 1.5rem;
 }
 
-.project-card-rename-menu form label {
+.project-card-action-menu form label {
   font-size: 1.4rem;
 }
 
-.project-card-rename-menu form .button-row{
+.project-card-action-menu form .button-row{
   display: flex;
   justify-content: right;
   gap: 1rem;

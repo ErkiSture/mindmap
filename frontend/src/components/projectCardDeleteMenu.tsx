@@ -1,5 +1,5 @@
 import type React from 'react';
-import '../styling/ProjectCardRenameMenu.css'
+import '../styling/ProjectCardActionMenu.css'
 import { useContext, useState } from 'react';
 import { ProjectsContext } from '../context/projectsContext';
 
@@ -34,8 +34,8 @@ export default function ProjectCardDeleteMenu({ setShowDeleteMenu, id }: Props) 
   }
 
   return (
-    <div className="project-card-rename-menu-overlay" onClick={(e) => e.stopPropagation()}>
-      <div className='project-card-rename-menu'>
+    <div className="project-card-action-menu-overlay" onClick={(e) => e.stopPropagation()}>
+      <div className='project-card-action-menu'>
         <form onSubmit={onSubmit}>
           <label htmlFor="project-name">Are you sure you want to delete this project?</label>
           <div className='button-row'>
