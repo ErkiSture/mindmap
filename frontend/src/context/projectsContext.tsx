@@ -9,8 +9,8 @@ type ProjectsContext = {
     showSettings: boolean;
     showSettingsCardId: number | null;
     projects: Project[];
-    loading: boolean;
-    error: string | null;
+    loadingProjects: boolean;
+    loadingProjectsError: string | null;
     createProjectLoading: boolean;
     createProjectError: string | null;
 }

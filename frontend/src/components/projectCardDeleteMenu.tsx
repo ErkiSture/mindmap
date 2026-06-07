@@ -4,26 +4,23 @@ import { useContext, useState } from 'react';
 import { ProjectsContext } from '../context/projectsContext';
 
 type Props = {
-  setShowRenameMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowDeleteMenu: React.Dispatch<React.SetStateAction<boolean>>;
   id: number;
 }
 
-export default function ProjectCardRenameMenu({ setShowRenameMenu, id }: Props) {
+export default function ProjectCardDeleteMenu({ setShowDeleteMenu, id }: Props) {
   const context = useContext(ProjectsContext);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingError, setLoadingError] = useState<String | null>();
 
   async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    if (loading) return;
-
     e.preventDefault();
-    const form = e.currentTarget as HTMLFormElement;
-    const value = (form.elements.namedItem("project-name") as HTMLInputElement).value;
+    if (loading) return;
 
     setLoading(true);
     setLoadingError(null);
-    const { success, error } = await context!.renameProject(id, value);
+    const { success, error } = await context!.deleteProject(id);
     setLoading(false);
     setLoadingError(error);
     
@@ -32,7 +29,7 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu, id }: Props) 
   }
   
   function cancel() {
-    setShowRenameMenu(false);
+    setShowDeleteMenu(false);
     context!.toggleSettings(id);
   }
 
@@ -40,8 +37,7 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu, id }: Props) 
     <div className="project-card-rename-menu-overlay" onClick={(e) => e.stopPropagation()}>
       <div className='project-card-rename-menu'>
         <form onSubmit={onSubmit}>
-          <label htmlFor="project-name">New Project Name:</label>
-          <input name='project-name' id="project-name" type="text"/>
+          <label htmlFor="project-name">Are you sure you want to delete this project?</label>
           <div className='button-row'>
             <button type="button" onClick={cancel}>
               Cancel
@@ -51,11 +47,11 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu, id }: Props) 
             </button>
           </div>
           { loadingError && (
-            <div>Error updating project name</div>
+            <div>Error removing project</div>
           )}
 
           { loading && (
-            <div>Saving...</div>
+            <div>removing...</div>
           )}
         </form>
       </div>
