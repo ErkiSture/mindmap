@@ -100,7 +100,6 @@ export default function ProjectsProvider({ children }: Props) {
         setProjects(projects.filter(project => project.id !== id));
     } else {
         error = data?.message || 'Failed to delete project';
-        console.error(error);
     }
     return { success: ok, error: error || null };
   }

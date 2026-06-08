@@ -11,6 +11,12 @@
   width: 80%;
   align-items: start;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+
+.dark .project-settings-menu {
+  border: 1px solid var(--color-border);
+  box-shadow: none;
 }
 
 .project-settings-menu button {
@@ -25,3 +31,4 @@
   position: static;
   cursor: pointer;
 }
+
