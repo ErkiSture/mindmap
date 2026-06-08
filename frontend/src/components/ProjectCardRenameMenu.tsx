@@ -12,7 +12,7 @@ export default function ProjectCardRenameMenu({ setShowRenameMenu, id }: Props) 
   const context = useContext(ProjectsContext);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [loadingError, setLoadingError] = useState<String | null>();
+  const [loadingError, setLoadingError] = useState<string | null>();
 
   async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     if (loading) return;

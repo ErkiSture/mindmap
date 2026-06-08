@@ -6,7 +6,7 @@ import ProjectSettingsMenu from './ProjectSettingsMenu';
 import { ProjectsContext } from '../context/projectsContext';
 
 type ProjectCardProps = {
-  name: String;
+  name: string;
   id: number;
 }
 

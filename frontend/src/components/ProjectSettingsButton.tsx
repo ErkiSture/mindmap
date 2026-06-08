@@ -5,7 +5,7 @@ import { ProjectsContext } from '../context/projectsContext';
 import { useContext } from 'react';
 
 type ProjectSettingsButtonProps = {
-  name: String
+  name: string
   id: number
 }
 
