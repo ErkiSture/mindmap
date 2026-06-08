@@ -1,7 +1,7 @@
 import type React from 'react';
-import '../styling/ProjectCardActionMenu.css'
+import '../../styling/project/ProjectCardActionMenu.css'
 import { useContext, useState } from 'react';
-import { ProjectsContext } from '../context/projectsContext';
+import { ProjectsContext } from '../../context/projectsContext';
 
 type Props = {
   setShowDeleteMenu: React.Dispatch<React.SetStateAction<boolean>>;

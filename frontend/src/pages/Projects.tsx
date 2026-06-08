@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import '../styling/projects.css'
-import { ProjectCard } from "../components/ProjectCard";
+import '../styling/project/projects.css'
+import { ProjectCard } from "../components/project/ProjectCard";
 import { ProjectsContext } from "../context/projectsContext";
 
 
 export default function Projects() {
   const context = useContext(ProjectsContext);
-  const { toggleSettings, renameProject, deleteProject, createProject, showSettings, showSettingsCardId, projects, loadingProjects, loadingProjectsError, createProjectLoading, createProjectError } = context!;
+  const { createProject, projects, loadingProjects, loadingProjectsError, createProjectLoading, createProjectError } = context!;
 
   if (loadingProjects) return <div>Loading projects...</div>
   if (loadingProjectsError) return <div>Failed to retrieve projects: {loadingProjectsError}</div>

@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import type { User } from "../types/user";
+import type { User } from "../../types/user";
 
 type ProtectedRouteProps = {
   user : User | null;

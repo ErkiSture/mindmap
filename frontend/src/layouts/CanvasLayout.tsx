@@ -1,5 +1,5 @@
 import CanvasOverlay from "../components/canvas/CanvasOverlay"
-import '../styling/canvas.css'
+import '../styling/canvas/canvas.css'
 import Canvas from "../pages/Canvas"
 import { useParams } from "react-router-dom";
 import type { Project } from "../types/project";

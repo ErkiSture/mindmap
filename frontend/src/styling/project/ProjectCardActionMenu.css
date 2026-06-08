@@ -13,9 +13,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* background-color: black; */
-  /* width: 30vw; */
-  /* height: 30vh; */
+  border-radius: 12px;
+}
+
+.dark .project-card-action-menu {
+  border: 1px solid var(--color-border);
 }
 
 .project-card-action-menu form {
@@ -29,6 +31,6 @@
 
 .project-card-action-menu form .button-row{
   display: flex;
-  justify-content: right;
+  justify-content: left;
   gap: 1rem;
 }

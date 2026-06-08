@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import '../styling/ProjectCard.css'
+import '../../styling/project/ProjectCard.css'
 import ProjectSettingsButton from './ProjectSettingsButton';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import ProjectSettingsMenu from './ProjectSettingsMenu';
-import { ProjectsContext } from '../context/projectsContext';
+import { ProjectsContext } from '../../context/projectsContext';
 
 type ProjectCardProps = {
   name: string;
@@ -12,7 +12,7 @@ type ProjectCardProps = {
 
 export function ProjectCard({ name, id }: ProjectCardProps) {
   const context = useContext(ProjectsContext);
-  const { toggleSettings, renameProject, showSettings, showSettingsCardId } = context!;
+  const { showSettings, showSettingsCardId } = context!;
   const navigate = useNavigate()
 
   return (

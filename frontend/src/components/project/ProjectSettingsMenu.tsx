@@ -1,9 +1,8 @@
-import '../styling/ProjectSettingsMenu.css'
-import Edit from '../assets/Edit';
-import Delete from '../assets/Delete'; 
-import { useContext, useState } from 'react';
+import '../../styling/project/ProjectSettingsMenu.css'
+import Edit from '../../assets/Edit';
+import Delete from '../../assets/Delete'; 
+import { useState } from 'react';
 import ProjectCardRenameMenu from './ProjectCardRenameMenu';
-import { ProjectsContext } from '../context/projectsContext';
 import ProjectCardDeleteMenu from './projectCardDeleteMenu';
 
 type ProjectSettingsMenuProps = {
@@ -11,7 +10,6 @@ type ProjectSettingsMenuProps = {
 }
 
 export default function ProjectSettingsMenu({ id }: ProjectSettingsMenuProps) {
-  const context = useContext(ProjectsContext);
   const [showRenameMenu, setShowRenameMenu] = useState<boolean>(false);
   const [showDeleteMenu, setShowDeleteMenu] = useState<boolean>(false);
 

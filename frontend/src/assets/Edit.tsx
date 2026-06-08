@@ -1,4 +1,4 @@
-import '../styling/icon.css'
+import '../styling/icon/icon.css'
 
 export default function Edit() {
   return (

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Projects from './pages/Projects'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import ProtectedRoute from './components/ProtectedRoute'
+import ProtectedRoute from './components/project/ProtectedRoute'
 import apiFetch from './utils/apiFetch'
 import type { User } from './types/user'
 import useFetch from './hooks/useFetch'
