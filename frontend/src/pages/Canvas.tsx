@@ -23,23 +23,23 @@ type CanvasProps = {
 
 export default function Canvas({ project }: CanvasProps) {
 
-  const { data, loading, error } = useFetch(
-    `/api/projects/get/${project.id}`,
-    { credentials: "include" }
-  );
+  const { data, loading, error } = useFetch(`/api/projects/${project.id}/nodes`, {
+    credentials: "include"
+  })
 
-  const [popUpMenuVisible, setPopUpMenuVisible] = useState<boolean>(false)
+  //console.log(data, loading, error)
 
+  
   const [camera, setCamera] = useState({
     x: 1000,
     y: 1000,
     zoom: 1,
   });
-
+  
   const dragging = useRef(false);
   const last = useRef({ x: 0, y: 0 });
   const canvasRef = useRef<HTMLDivElement | null>(null);
-
+  
   // Prevent browser zoom (important for pinch)
   useEffect(() => {
     const handler = (e: WheelEvent) => {
@@ -47,11 +47,11 @@ export default function Canvas({ project }: CanvasProps) {
         e.preventDefault();
       }
     };
-
+    
     const contextMenuHandler = (e: MouseEvent) => {
       e.preventDefault();
     }
-
+    
     window.addEventListener("contextmenu", contextMenuHandler);
     window.addEventListener("wheel", handler, { passive: false });
     return () => {
@@ -66,19 +66,19 @@ export default function Canvas({ project }: CanvasProps) {
   // ZOOM 
   function handleZoom(e: React.WheelEvent) {
     const rect = e.currentTarget.getBoundingClientRect();
-
+    
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
     setCamera((c) => {
       const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, c.zoom - e.deltaY * ZOOM_SENSITIVITY));
-
+      
       const worldX = mouseX / c.zoom + c.x;
       const worldY = mouseY / c.zoom + c.y;
-
+      
       let newCameraX = worldX - mouseX / newZoom;
       let newCameraY = worldY - mouseY / newZoom;
-
+      
       return {
         zoom: newZoom,
         x: newCameraX,
@@ -90,7 +90,7 @@ export default function Canvas({ project }: CanvasProps) {
   //PAN MOUSE AND OPEN MENU
   function onMouseDown(e: React.MouseEvent) {
     if (e.button === 2) {  // Right click
-      setPopUpMenuVisible(!popUpMenuVisible);
+      triggerPopUpMenu(e)
       return;
     }
 
@@ -109,19 +109,18 @@ export default function Canvas({ project }: CanvasProps) {
       x: c.x - dx / c.zoom * PAN_SENSITIVITY,
       y: c.y - dy / c.zoom * PAN_SENSITIVITY,
     }));
-
+    
     last.current = { x: e.clientX, y: e.clientY };
   }
-
+  
   function onMouseUp() {
     dragging.current = false;
   }
-
-
+  
   // WHEEL HANDLER
   function onWheel(e: React.WheelEvent) {
     // e.preventDefault();
-
+    
     if (e.ctrlKey || e.metaKey) {
       // Zoom on mouse wheel or trackpad pinch
       handleZoom(e);
@@ -140,14 +139,33 @@ export default function Canvas({ project }: CanvasProps) {
     let right = camera.x > CANVAS_WIDTH - EDGE_THRESHOLD - (window.innerWidth / camera.zoom) ? ((camera.x + window.innerWidth / camera.zoom) - (CANVAS_WIDTH - EDGE_THRESHOLD)) * camera.zoom : 0;
     let top = camera.y < EDGE_THRESHOLD ? (EDGE_THRESHOLD - camera.y) * camera.zoom : 0;
     let bottom = camera.y > CANVAS_HEIGHT - EDGE_THRESHOLD - (window.innerHeight / camera.zoom) ? ((camera.y + window.innerHeight / camera.zoom) - (CANVAS_HEIGHT - EDGE_THRESHOLD)) * camera.zoom : 0;
-
+    
     setBorder({ top, left, right, bottom });
-
+    
   }, [camera]);
-
-  function triggerPopUpMenu() {
-    setPopUpMenuVisible(!popUpMenuVisible);
+  
+  // POP-UP MENU
+  const [popUpMenuVisible, setPopUpMenuVisible] = useState<boolean>(false)
+  const [popUpMenuPos, setPopUpMenuPos] = useState<{ x: number, y: number}>( {x: 0, y: 0})
+  function triggerPopUpMenu(e: React.MouseEvent) {
+    e.stopPropagation()
+    setPopUpMenuVisible(true);
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    setPopUpMenuPos({ x: mouseX, y: mouseY })
   }
+
+  // Removes pop-up menu when you click somewhere else
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      setPopUpMenuVisible(false);
+    }
+    window.addEventListener("click", handler)
+    
+    return () => {
+      window.removeEventListener("click", handler)
+    }
+  }, [])
 
 
   return (
@@ -216,7 +234,7 @@ export default function Canvas({ project }: CanvasProps) {
         <Node x={4000} y={1500} width={120} height={80} bgColor="blue" camera={camera} />
         
         { popUpMenuVisible && (
-          <CanvasPopUpMenu/>
+          <CanvasPopUpMenu pos = {popUpMenuPos} projectId={project.id}/>
         )}
       </div>
 

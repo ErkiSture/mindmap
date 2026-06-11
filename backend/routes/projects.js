@@ -43,7 +43,7 @@ router.get('/:projectId/nodes', isAuthenticated, async (req, res) => {
   const project = await Project.findOne({ where: {id: projectId}})
   if (!project) return res.status(404).json({ message: "Project not found"})
 
-  return res.status(200).json({message: "Nodes found", project: project})
+  return res.status(200).json({message: "Nodes found", nodes: project.nodes})
 })
 
 // Rename a project

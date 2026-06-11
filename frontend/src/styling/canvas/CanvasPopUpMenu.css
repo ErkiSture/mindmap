@@ -1,3 +1,24 @@
 .canvas-popup-menu {
-  position: absolute;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 150px;
+  height: 200px;
+  background-color: white;
+  z-index: 1001;
+  font-size: 1.2rem;
+  color : var(--color-text)
+}
+
+.canvas-popup-menu button {
+  all: unset;
+  position: static;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.canvas-popup-menu button:hover {
+  position: static;
+  cursor: pointer;
 }
